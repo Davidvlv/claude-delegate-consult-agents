@@ -1,10 +1,10 @@
 ---
-name: sonnet-on-call
+name: delegate-workers
 description: >
   Continuity-first orchestration playbook. Keeps Opus (or Fable) resident as the
   main thinking agent for the whole session, and delegates mechanical execution,
   bulk reads, and noisy tool output to short-lived Sonnet/Haiku workers that
-  return a compact result. Manual-only; invoke with /sonnet-on-call.
+  return a compact result. Manual-only; invoke with /delegate-workers.
 model: opus
 ---
 
@@ -94,7 +94,7 @@ If a mechanical stretch is so long that even a subagent hop feels like overhead,
 This skill loads once, at invocation, then sits atop a context that only grows, and its pull fades over a long session. The failure mode is convenience — "it's just a quick edit, I'll do it myself" repeated fifty times reintroduces exactly the bulk this skill exists to keep out.
 
 - **Self-check.** Before finalizing a response where you did non-trivial mechanical or bulk work yourself, ask: *did that belong to a Sonnet delegation?* A yes means route the next one.
-- **Re-injection.** This plugin ships a `UserPromptSubmit` hook that re-states the routing rule each turn while the mode is active (turned on by `/sonnet-on-call`, cleared by `/sonnet-on-call off`). It's the one signal from outside the growing context — keep it enabled.
+- **Re-injection.** This plugin ships a `UserPromptSubmit` hook that re-states the routing rule each turn while the mode is active (turned on by `/delegate-workers`, cleared by `/delegate-workers off`). It's the one signal from outside the growing context — keep it enabled.
 
 ## Discipline
 

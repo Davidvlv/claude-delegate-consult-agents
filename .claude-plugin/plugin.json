@@ -1,9 +1,9 @@
 {
-  "name": "opus-on-call",
+  "name": "consult-thinkers",
   "description": "Cost-efficient model-routing playbook for Claude Code. Runs the main session as a Sonnet orchestrator that does mechanical work inline, offloads noisy tool output to cheap summarizer subagents, and delegates scoped reasoning to short-lived Opus subagents that return a spec.",
   "author": {
-    "name": "davidvlvcm",
-    "url": "https://github.com/davidvlvcm"
+    "name": "davidvlv",
+    "url": "https://github.com/davidvlv"
   },
   "hooks": {
     "UserPromptSubmit": [
@@ -11,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/opus-on-call-tracker.js\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/consult-thinkers-tracker.js\"",
             "timeout": 5
           }
         ]

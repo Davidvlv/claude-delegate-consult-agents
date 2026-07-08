@@ -1,6 +1,6 @@
-# sonnet-on-call
+# delegate-workers
 
-Continuity-first orchestration playbook for [Claude Code](https://claude.com/claude-code) — the inverse of [`opus-on-call`](../README.md).
+Continuity-first orchestration playbook for [Claude Code](https://claude.com/claude-code) — the inverse of [`consult-thinkers`](../README.md).
 
 The main session runs on Opus (or Fable) as the resident thinker, for the
 whole session. Reasoning, architecture calls, and anything that needs this
@@ -20,7 +20,7 @@ already-expensive context: mechanical work happens and gets mostly discarded
 at cheap rates in an isolated subagent, so only a small, high-value result
 ever joins the resident context.
 
-If raw dollar cost matters most, [`opus-on-call`](../README.md)'s
+If raw dollar cost matters most, [`consult-thinkers`](../README.md)'
 Sonnet-resident setup is strictly cheaper — use that instead. Use this one
 when the session's value comes from sustained judgment (a long design
 conversation, an incident review, an iterative creative-writing session) and
@@ -29,26 +29,26 @@ you don't want mechanical grunt work diluting it.
 ## Install
 
 ```
-/plugin marketplace add davidvlvcm/opus-on-call
-/plugin install sonnet-on-call
+/plugin marketplace add davidvlv/claude-delegate-consult-agents
+/plugin install delegate-workers
 ```
 
 ## Use
 
 ```
-/sonnet-on-call
+/delegate-workers
 ```
 
 Manual-only — invoke it at the start of a session you want run this way. A
 bundled `UserPromptSubmit` hook then re-states the routing rule each turn for
 that session, so the resident agent doesn't drift back to doing mechanical
-work itself as the context grows. Turn it off with `/sonnet-on-call off`. See
-[skills/sonnet-on-call/SKILL.md](skills/sonnet-on-call/SKILL.md) for the full
+work itself as the context grows. Turn it off with `/delegate-workers off`. See
+[skills/delegate-workers/SKILL.md](skills/delegate-workers/SKILL.md) for the full
 routing rules.
 
 Defaults to pinning `model: opus`. For a session where creative or narrative
 judgment matters more than analytical rigor, change the `model: opus` line in
-[skills/sonnet-on-call/SKILL.md](skills/sonnet-on-call/SKILL.md) to
+[skills/delegate-workers/SKILL.md](skills/delegate-workers/SKILL.md) to
 `model: fable` before invoking — the routing rules apply unchanged either way.
 
 ## License

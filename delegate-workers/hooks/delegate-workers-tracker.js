@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// sonnet-on-call — UserPromptSubmit hook.
+// delegate-workers — UserPromptSubmit hook.
 //
 // Re-anchors the routing rule. SKILL.md loads once at invocation and then sits
 // atop a context that only grows, so its pull fades over a long session the
@@ -11,7 +11,7 @@
 // The skill is manual-only by convention (not by a disable-model-invocation
 // flag — that flag currently dead-ends the typed slash command on Claude
 // Code), so the reminder must fire ONLY in sessions where the user invoked
-// /sonnet-on-call. Gate on a per-session flag file, never a global one — a
+// /delegate-workers. Gate on a per-session flag file, never a global one — a
 // global flag would leak the reminder into unrelated concurrent sessions and
 // persist after this one ends.
 
@@ -20,14 +20,14 @@ const path = require('path');
 const os = require('os');
 
 const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
-const flagDir = path.join(claudeDir, '.sonnet-on-call');
+const flagDir = path.join(claudeDir, '.delegate-workers');
 const STALE_MS = 7 * 24 * 60 * 60 * 1000;
 
 // The routing rule, re-stated each turn. Kept tight — it rides every user turn
 // at the resident (expensive) rate, and bloating the reminder undercuts the
 // context-hygiene saving the whole skill exists for.
 const REMINDER =
-  "sonnet-on-call active. You're the resident thinker (Opus/Fable) — " +
+  "delegate-workers active. You're the resident thinker (Opus/Fable) — " +
   'stay inline for reasoning, architecture, and anything needing this session\'s ' +
   'continuity. Delegate mechanical execution (edits once decided, git/build/test ' +
   'loops, repetitive/batch changes) to a Sonnet subagent (Agent tool, model: sonnet). ' +
@@ -116,11 +116,11 @@ process.stdin.on('end', () => {
     const prompt = (data.prompt || '').trim().toLowerCase();
 
     const isOff =
-      /\/sonnet-on-call(:sonnet-on-call)?\s+(off|stop|end|disable)\b/.test(prompt) ||
-      /\b(stop|disable|deactivate|turn off)\b.*\bsonnet-on-call\b/.test(prompt);
+      /\/delegate-workers(:delegate-workers)?\s+(off|stop|end|disable)\b/.test(prompt) ||
+      /\b(stop|disable|deactivate|turn off)\b.*\bdelegate-workers\b/.test(prompt);
     const isOn =
-      /^\/sonnet-on-call(:sonnet-on-call)?\b/.test(prompt) ||
-      /\b(activate|enable|turn on|start)\b.*\bsonnet-on-call\b/.test(prompt);
+      /^\/delegate-workers(:delegate-workers)?\b/.test(prompt) ||
+      /\b(activate|enable|turn on|start)\b.*\bdelegate-workers\b/.test(prompt);
 
     if (isOff) deactivate(flagPath);
     else if (isOn) activate(flagPath);

@@ -1,4 +1,4 @@
-# opus-on-call
+# consult-thinkers
 
 Cost-efficient model-routing playbook for [Claude Code](https://claude.com/claude-code).
 
@@ -18,31 +18,31 @@ up Opus-quality judgment where it matters.
 ## Install
 
 ```
-/plugin marketplace add davidvlvcm/opus-on-call
-/plugin install opus-on-call
+/plugin marketplace add davidvlv/claude-delegate-consult-agents
+/plugin install consult-thinkers
 ```
 
 ## Use
 
 ```
-/opus-on-call
+/consult-thinkers
 ```
 
 Manual-only — invoke it at the start of a session you want run this way. A
 bundled `UserPromptSubmit` hook then re-states the routing rule each turn for
 that session, so the orchestrator doesn't drift back to reasoning inline as the
-context grows. Turn it off with `/opus-on-call off`. See
-[skills/opus-on-call/SKILL.md](skills/opus-on-call/SKILL.md) for the full
+context grows. Turn it off with `/consult-thinkers off`. See
+[skills/consult-thinkers/SKILL.md](skills/consult-thinkers/SKILL.md) for the full
 routing rules.
 
 ## Related
 
-This marketplace also hosts [`sonnet-on-call`](sonnet-on-call/README.md), the
+This marketplace also hosts [`delegate-workers`](delegate-workers/README.md), the
 inverse playbook: Opus (or Fable) stays resident as the main thinking agent
 for the whole session, and mechanical execution plus noisy tool output get
 delegated to short-lived Sonnet/Haiku workers instead. Install whichever
-matches what the session needs more — `opus-on-call` when raw cost matters
-most, `sonnet-on-call` when sustained top-tier reasoning matters more than
+matches what the session needs more — `consult-thinkers` when raw cost matters
+most, `delegate-workers` when sustained top-tier reasoning matters more than
 cost.
 
 ## License

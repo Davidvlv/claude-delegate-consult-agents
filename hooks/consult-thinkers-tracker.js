@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// opus-on-call — UserPromptSubmit hook.
+// consult-thinkers — UserPromptSubmit hook.
 //
 // Re-anchors the routing rule. SKILL.md loads once at invocation and then sits
 // atop a context that only grows, so its pull fades over a long session and the
@@ -8,7 +8,7 @@
 // outside the growing context.
 //
 // The skill is manual-only (disable-model-invocation: true), so the reminder
-// must fire ONLY in sessions where the user invoked /opus-on-call. Gate on a
+// must fire ONLY in sessions where the user invoked /consult-thinkers. Gate on a
 // per-session flag file, never a global one — a global flag would leak the
 // reminder into unrelated concurrent sessions and persist after this one ends.
 
@@ -17,13 +17,13 @@ const path = require('path');
 const os = require('os');
 
 const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
-const flagDir = path.join(claudeDir, '.opus-on-call');
+const flagDir = path.join(claudeDir, '.consult-thinkers');
 const STALE_MS = 7 * 24 * 60 * 60 * 1000;
 
 // The routing rule, re-stated each turn. Kept tight — it rides every user turn,
 // and bloating the reminder undercuts the token saving the whole skill exists for.
 const REMINDER =
-  'opus-on-call active. Default: delegate any task carrying judgment ' +
+  'consult-thinkers active. Default: delegate any task carrying judgment ' +
   '(architecture, ambiguous requirements, multi-file root-cause debugging, review/risk calls) ' +
   'to a short-lived Opus subagent (Agent tool, model: opus) that returns a spec. ' +
   'Stay inline on Sonnet only for the mechanical allowlist: edits, git/build/test, ' +
@@ -111,11 +111,11 @@ process.stdin.on('end', () => {
     const prompt = (data.prompt || '').trim().toLowerCase();
 
     const isOff =
-      /\/opus-on-call(:opus-on-call)?\s+(off|stop|end|disable)\b/.test(prompt) ||
-      /\b(stop|disable|deactivate|turn off)\b.*\bopus-on-call\b/.test(prompt);
+      /\/consult-thinkers(:consult-thinkers)?\s+(off|stop|end|disable)\b/.test(prompt) ||
+      /\b(stop|disable|deactivate|turn off)\b.*\bconsult-thinkers\b/.test(prompt);
     const isOn =
-      /^\/opus-on-call(:opus-on-call)?\b/.test(prompt) ||
-      /\b(activate|enable|turn on|start)\b.*\bopus-on-call\b/.test(prompt);
+      /^\/consult-thinkers(:consult-thinkers)?\b/.test(prompt) ||
+      /\b(activate|enable|turn on|start)\b.*\bconsult-thinkers\b/.test(prompt);
 
     if (isOff) deactivate(flagPath);
     else if (isOn) activate(flagPath);

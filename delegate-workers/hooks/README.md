@@ -1,16 +1,16 @@
-# sonnet-on-call Hooks
+# delegate-workers Hooks
 
 Bundled with the plugin and active automatically once installed. No manual setup.
 
 ## What's included
 
-### `sonnet-on-call-tracker.js` — UserPromptSubmit hook
+### `delegate-workers-tracker.js` — UserPromptSubmit hook
 
 Fires on every user prompt. Two jobs:
 
-1. **Track activation.** Scans the prompt for `/sonnet-on-call` (and natural-language
-   equivalents like "enable sonnet-on-call") to turn the mode on, and for
-   `/sonnet-on-call off` / "stop sonnet-on-call" to turn it off.
+1. **Track activation.** Scans the prompt for `/delegate-workers` (and natural-language
+   equivalents like "enable delegate-workers") to turn the mode on, and for
+   `/delegate-workers off` / "stop delegate-workers" to turn it off.
 2. **Re-anchor.** While the mode is on for the session, it injects the routing
    rule back into context as hidden `additionalContext`.
 
@@ -26,19 +26,19 @@ it re-anchors reliably where the static skill text cannot.
 Activation is tracked with a flag file, one per session:
 
 ```
-$CLAUDE_CONFIG_DIR/.sonnet-on-call/active-<session_id>
+$CLAUDE_CONFIG_DIR/.delegate-workers/active-<session_id>
 ```
 
 - **Existence is the whole signal** — the file's content is never read back into
   context, so the hook only ever injects the fixed routing reminder it controls,
   never bytes from disk.
 - **Per-session, not global.** The session id scopes the flag so the reminder
-  fires only in sessions where `/sonnet-on-call` was invoked — it never leaks
+  fires only in sessions where `/delegate-workers` was invoked — it never leaks
   into other concurrent sessions, and it doesn't persist into unrelated later
   ones.
 - Stale flags (older than 7 days) are swept on each run, since a session that
   just ends never clears its own flag.
-- Namespaced separately from opus-on-call's `.opus-on-call/` flag dir, so
+- Namespaced separately from consult-thinkers' `.consult-thinkers/` flag dir, so
   the two plugins' activation states never collide if both are installed.
 
 ## Security
@@ -54,7 +54,7 @@ $CLAUDE_CONFIG_DIR/.sonnet-on-call/active-<session_id>
 ## Cost
 
 The reminder is one short paragraph, injected only on turns where the mode is
-active. Unlike opus-on-call's reminder, this one rides the *resident* (expensive)
+active. Unlike consult-thinkers' reminder, this one rides the *resident* (expensive)
 model's context on every active turn rather than a cheap one, so keeping it
 tight matters even more here — the paragraph itself is a fixed, small cost, but
 it's charged at the higher rate for the rest of the session once it's in
@@ -63,7 +63,7 @@ context.
 ## Enable / disable
 
 - Installed with the plugin — no setup.
-- `/sonnet-on-call off` clears the mode for the current session.
+- `/delegate-workers off` clears the mode for the current session.
 - Disable the plugin to remove the hook entirely.
 
 > Plugin hooks load at Claude Code startup. After install or update, reload

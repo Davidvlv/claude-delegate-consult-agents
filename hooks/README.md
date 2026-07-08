@@ -1,16 +1,16 @@
-# opus-on-call Hooks
+# consult-thinkers Hooks
 
 Bundled with the plugin and active automatically once installed. No manual setup.
 
 ## What's included
 
-### `opus-on-call-tracker.js` — UserPromptSubmit hook
+### `consult-thinkers-tracker.js` — UserPromptSubmit hook
 
 Fires on every user prompt. Two jobs:
 
-1. **Track activation.** Scans the prompt for `/opus-on-call` (and natural-language
-   equivalents like "enable opus-on-call") to turn the mode on, and for
-   `/opus-on-call off` / "stop opus-on-call" to turn it off.
+1. **Track activation.** Scans the prompt for `/consult-thinkers` (and natural-language
+   equivalents like "enable consult-thinkers") to turn the mode on, and for
+   `/consult-thinkers off` / "stop consult-thinkers" to turn it off.
 2. **Re-anchor.** While the mode is on for the session, it injects the routing
    rule back into context as hidden `additionalContext`.
 
@@ -25,14 +25,14 @@ static skill text cannot.
 Activation is tracked with a flag file, one per session:
 
 ```
-$CLAUDE_CONFIG_DIR/.opus-on-call/active-<session_id>
+$CLAUDE_CONFIG_DIR/.consult-thinkers/active-<session_id>
 ```
 
 - **Existence is the whole signal** — the file's content is never read back into
   context, so the hook only ever injects the fixed routing reminder it controls,
   never bytes from disk.
 - **Per-session, not global.** The session id scopes the flag so the reminder
-  fires only in sessions where `/opus-on-call` was invoked — it never leaks into
+  fires only in sessions where `/consult-thinkers` was invoked — it never leaks into
   other concurrent sessions, and it doesn't persist into unrelated later ones.
 - Stale flags (older than 7 days) are swept on each run, since a session that
   just ends never clears its own flag.
@@ -57,7 +57,7 @@ skill exists for.
 ## Enable / disable
 
 - Installed with the plugin — no setup.
-- `/opus-on-call off` clears the mode for the current session.
+- `/consult-thinkers off` clears the mode for the current session.
 - Disable the plugin to remove the hook entirely.
 
 > Plugin hooks load at Claude Code startup. After install or update, reload

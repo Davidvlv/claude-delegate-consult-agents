@@ -1,10 +1,10 @@
 ---
-name: opus-on-call
+name: consult-thinkers
 description: >
   Cost-efficient model-routing playbook. Runs the main session as a Sonnet
   orchestrator that does mechanical work inline, offloads noisy tool output to
   cheap summarizer subagents, and delegates scoped reasoning to short-lived Opus
-  subagents that return a spec. Manual-only; invoke with /opus-on-call.
+  subagents that return a spec. Manual-only; invoke with /consult-thinkers.
 model: sonnet
 ---
 
@@ -88,7 +88,7 @@ If a decision depends on so much live session state that packaging would lose to
 This skill loads once, at invocation, then sits atop a context that only grows — so its pull fades over a long session and the failure is silent: you slide back to reasoning inline without noticing. Two backstops:
 
 - **Self-check.** Before finalizing any response where you worked through a non-trivial decision, ask: *did I just reason inline on something that belonged to the escalate default?* A yes means route the next such task.
-- **Re-injection.** This plugin ships a `UserPromptSubmit` hook that re-states the routing rule each turn while the mode is active (turned on by `/opus-on-call`, cleared by `/opus-on-call off`). Only re-injection from outside the growing context reliably re-anchors. Keep the hook enabled.
+- **Re-injection.** This plugin ships a `UserPromptSubmit` hook that re-states the routing rule each turn while the mode is active (turned on by `/consult-thinkers`, cleared by `/consult-thinkers off`). Only re-injection from outside the growing context reliably re-anchors. Keep the hook enabled.
 
 ## Discipline
 

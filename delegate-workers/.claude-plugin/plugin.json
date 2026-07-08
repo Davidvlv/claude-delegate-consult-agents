@@ -1,9 +1,9 @@
 {
-  "name": "sonnet-on-call",
+  "name": "delegate-workers",
   "description": "Continuity-first model-routing playbook for Claude Code. Keeps Opus (or Fable) resident as the main thinking agent for the whole session, and delegates mechanical execution and noisy tool output to short-lived Sonnet/Haiku worker subagents that return a compact result.",
   "author": {
-    "name": "davidvlvcm",
-    "url": "https://github.com/davidvlvcm"
+    "name": "davidvlv",
+    "url": "https://github.com/davidvlv"
   },
   "hooks": {
     "UserPromptSubmit": [
@@ -11,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/sonnet-on-call-tracker.js\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/delegate-workers-tracker.js\"",
             "timeout": 5
           }
         ]
