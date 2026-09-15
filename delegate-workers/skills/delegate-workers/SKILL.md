@@ -41,11 +41,14 @@ When a task sits on the line, delegate.
 - anything leaning on this session's accumulated context — packaging it for a blank subagent would lose fidelity you're staying resident to keep
 - deciding what to delegate and writing the delegation brief — that orchestration is itself the reasoning this mode protects
 
-**Delegate to a Sonnet execution subagent** (you've decided the approach; this carries it out):
+**Delegate to a Sonnet execution subagent** (you set the goal and the acceptance criteria; it carries them out):
+- implementing a function, class, module, or test suite from acceptance criteria you've written
 - multi-file edits/refactors that follow a spec you've written
 - git/build/test operation sequences, especially multi-step ones
 - scaffolding, repetitive renames, applying a codemod
-- grinding a build/test loop to green when the remaining failures are mechanical (missing imports, lint fixes)
+- grinding a build/test loop to green
+
+A subagent implementing to a spec makes design calls below the level your brief settles — that's the point, not a leak. Settle the decisions that need your context, state them as constraints, and give it a verification command to make its deliverable.
 
 **Delegate to a Sonnet/Haiku summarizer subagent** (bulk or noisy output you need only a verdict from):
 - verbose build/test/lint output, large diffs, long log tails
@@ -56,12 +59,13 @@ When a task sits on the line, delegate.
 
 ## Delegation recipe — Sonnet execution subagent
 
-Spawn via the Agent tool with `model: sonnet` and `subagent_type: general-purpose` (needs Edit/Write/Bash). You've made the decisions, so the brief should contain none for the subagent to make:
+Spawn via the Agent tool with `model: sonnet` and `subagent_type: general-purpose` (needs Edit/Write/Bash). The brief carries every decision that needed your context; the subagent settles the rest:
 
-1. The exact change or operation sequence, fully specified.
-2. All context it needs — file paths, the spec/plan, exact commands, the shape of "done."
-3. Instruction to execute, not ask — it cannot reach you mid-run. If genuinely blocked, report why instead of guessing.
-4. What to return: a compact result — diff summary, pass/fail with errors, file list — never a full transcript or raw dump.
+1. The goal — an exact change sequence when you have one, acceptance criteria as a checkable list when the work is an implementation.
+2. All context it needs — file paths, the spec/plan, conventions to follow, exact commands, the shape of "done."
+3. The verification command, and the instruction to iterate until it passes.
+4. Instruction to execute, not ask — it cannot reach you mid-run. If genuinely blocked, report why instead of guessing.
+5. What to return: a compact result — diff summary, pass/fail with errors, file list, plus anything it had to decide — never a full transcript or raw dump.
 
 Fold the compact result into your context and continue.
 
@@ -83,9 +87,12 @@ Effort (`low`/`medium`/`high`/`xhigh`/`max`) controls thinking-token budget for 
 - Keep effort at whatever the session's reasoning needs; your own model never changes, so there's no toggle-and-revert dance.
 - A spawned subagent inherits your current effort unless it overrides. If you've dropped your own effort, a summarizer that needs real judgment may need a bump back first.
 
-## Context-entangled mechanical work
+## When a task resists packaging
 
-Mechanical work is nearly always packageable — that's what makes it mechanical. If you can't write a tight, self-contained brief for something you were about to delegate, that's a signal it isn't purely mechanical. Pull out the judgment sliver, decide it yourself (you have full context — the advantage of staying resident), and package only the mechanical remainder.
+The test for delegation is whether you can write a self-contained brief — not whether the work is free of judgment. A subagent exercises judgment fine; what it can't do is read your context. So when a brief is hard to write, name which of the two is biting:
+
+- **The task carries judgment.** Delegate it anyway. Settle the questions only your context can answer, write them into the brief as fixed constraints, and let the subagent make the calls that live below them.
+- **The task depends on context you can't transfer.** That's the real blocker. Keep it inline, or lift the undocumented parts into the brief until it stands alone.
 
 If a mechanical stretch is so long that even a subagent hop feels like overhead, you can ask the user to `/model sonnet` for that stretch and `/model opus` back — but this gives up your reasoning residency for the duration, so a subagent is almost always the better trade.
 
